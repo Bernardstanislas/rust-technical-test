@@ -1,3 +1,6 @@
+#[macro_use]
+extern crate dotenv_codegen;
+
 use std::fs;
 use std::io;
 
@@ -12,11 +15,13 @@ fn main() {
 
     let output = io::stdout();
 
+    let store_file_path = dotenv!("BOUNTY_STORE_FILE_PATH");
+
     let store_file = fs::OpenOptions::new()
         .write(true)
         .append(true)
         .create(true)
-        .open("bounties.txt")
+        .open(store_file_path)
         .unwrap();
 
     let mut bounty_store = store::FileBountyStore{ store_file: &store_file };
