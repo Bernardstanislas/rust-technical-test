@@ -1,4 +1,4 @@
-use std::fs::File;
+use std::fs;
 use std::io;
 
 mod store;
@@ -12,7 +12,13 @@ fn main() {
 
     let output = io::stdout();
 
-    let store_file = File::create("bounties.txt").unwrap();
+    let store_file = fs::OpenOptions::new()
+        .write(true)
+        .append(true)
+        .create(true)
+        .open("bounties.txt")
+        .unwrap();
+
     let mut bounty_store = store::FileBountyStore{ store_file: &store_file };
     let mut bounty_prompt = prompt::BountyPrompt {
         reader: input,

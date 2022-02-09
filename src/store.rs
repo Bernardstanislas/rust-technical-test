@@ -12,7 +12,7 @@ pub struct FileBountyStore<'a> {
 
 impl BountyStore for FileBountyStore<'_> {
     fn save_bounty(&mut self, bounty: Bounty) -> Result<(), Error> {
-        write!(self.store_file, "{}", bounty)
+        writeln!(self.store_file, "{}", bounty)
     }
 }
 
