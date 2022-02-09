@@ -1,9 +1,9 @@
 use std::io::{BufRead, Write, Error};
-use super::Bounty;
+use crate::bounty::Bounty;
 
 pub struct BountyPrompt<R, W> {
-    reader: R,
-    writer: W,
+    pub reader: R,
+    pub writer: W,
 }
 
 impl<R, W> BountyPrompt<R, W>
@@ -11,7 +11,7 @@ where
     R: BufRead,
     W: Write
 {
-    fn new_bounty(&mut self) -> Result<Bounty, Error> {
+    pub fn new_bounty(&mut self) -> Result<Bounty, Error> {
         let title = self.ask_for("Bounty title: ")?;
         let description = self.ask_for("Bounty description: ")?;
         let amount = self.ask_for("Bounty amount: ")?.parse::<u32>().expect("Please enter a number");
@@ -26,6 +26,7 @@ where
 
     fn ask_for(&mut self, question: &str) -> Result<String, Error> {
         write!(&mut self.writer, "{}", question)?;
+        self.writer.flush()?;
         let mut answer = String::new();
         self.reader.read_line(&mut answer)?;
         Ok(answer.trim().to_string())
@@ -35,7 +36,6 @@ where
 #[cfg(test)]
 mod tests {
     use super::BountyPrompt;
-    use std::io::{Cursor, Seek, SeekFrom, Read, Write, BufReader};
 
     #[test]
     fn test_bounty_prompt() {

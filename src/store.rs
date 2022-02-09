@@ -1,13 +1,13 @@
 use std::fs::File;
 use std::io::{Write, Error};
-use super::Bounty;
+use crate::bounty::Bounty;
 
 pub trait BountyStore {
     fn save_bounty(&mut self, bounty: Bounty) -> Result<(), Error>;
 }
 
 pub struct FileBountyStore<'a> {
-    store_file: &'a File
+    pub store_file: &'a File
 }
 
 impl BountyStore for FileBountyStore<'_> {

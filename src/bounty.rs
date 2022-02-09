@@ -1,13 +1,10 @@
 use std::fmt;
-mod store;
-mod prompt;
 
-#[derive(Debug)]
 pub struct Bounty {
-    title: String,
-    description: String,
-    amount: u32,
-    payment_token_address: String
+    pub title: String,
+    pub description: String,
+    pub amount: u32,
+    pub payment_token_address: String
 }
 
 impl fmt::Display for Bounty {
